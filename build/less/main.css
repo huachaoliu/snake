@@ -1,0 +1,47 @@
+html * {
+  margin: 0;
+  padding: 0;
+  background: #787878;
+}
+.game_config {
+  position: relative;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.hide {
+  display: none;
+}
+.c_mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 3, 8, 0.5);
+  position: absolute;
+  z-index: 1000;
+}
+.c_board {
+  position: absolute;
+  z-index: 1001;
+  width: 400px;
+  height: 300px;
+  top: 20%;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+.grid {
+  border: 1px solid #d9d9d9;
+  background: #000;
+  margin: 0 auto;
+  position: relative;
+}
+.snake {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #000;
+}
+.snake.food {
+  background: #f10;
+}
