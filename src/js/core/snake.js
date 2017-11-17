@@ -82,6 +82,7 @@ module.exports = class Snake {
 
   start() {
     //TODO 启动定时器，设置默认方向。
+    this.moved = false;
     this.direction = constants.D_RIGHT;
     this.bindKeyEvent();
     this.timer = setInterval(() => {
@@ -90,6 +91,7 @@ module.exports = class Snake {
   }
 
   pause() {
+    this.moved = true;
     clearInterval(this.timer);
   }
 
@@ -102,6 +104,7 @@ module.exports = class Snake {
   //更新方向
   updateDirection(code) {
     const { D_LEFT, D_RIGHT, D_UP, D_DOWN } = constants;
+    console.log('here');
     if (code === 37 && this.direction !== D_RIGHT) {
       this.direction = D_LEFT;
     } else if (code === 38 && this.direction !== D_DOWN) {

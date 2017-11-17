@@ -203,9 +203,10 @@ document.addEventListener('keydown', function (e) {
   count++;
   if (e.keyCode === 32) {
     //开始游戏
-    if (count % 2 === 1) {
+    if (count % 2 === 1 && !snake.moved) {
       snake.start();
     } else {
+      console.log('pause');
       snake.pause();
     }
   }
@@ -342,6 +343,7 @@ module.exports = function () {
       var _this = this;
 
       //TODO 启动定时器，设置默认方向。
+      this.moved = false;
       this.direction = constants.D_RIGHT;
       this.bindKeyEvent();
       this.timer = setInterval(function () {
@@ -351,6 +353,7 @@ module.exports = function () {
   }, {
     key: 'pause',
     value: function pause() {
+      this.moved = true;
       clearInterval(this.timer);
     }
   }, {
@@ -373,6 +376,7 @@ module.exports = function () {
           D_UP = constants.D_UP,
           D_DOWN = constants.D_DOWN;
 
+      console.log('here');
       if (code === 37 && this.direction !== D_RIGHT) {
         this.direction = D_LEFT;
       } else if (code === 38 && this.direction !== D_DOWN) {
