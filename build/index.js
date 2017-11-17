@@ -143,22 +143,8 @@ var checkSize = function checkSize(max, win, size) {
   return max;
 };
 
-var makeRow = function makeRow(l) {
-  var v = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-  var arr = new Array(l);
-  arr.fill(v);
-  return arr;
-};
-
 var makeScope = function makeScope(v) {
   var scope = [];
-
-  var tscope = Array.from({ length: v }, function (i) {
-    return makeRow[i] = i;
-  });
-  console.log(tscope);
-
   for (var i = 0; i < v; i++) {
     scope.push([i, 0]);
   }
@@ -204,12 +190,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var snake = new _snake2.default(document.querySelector('.container'), {
   size: 16
 });
-//先生成配置面板
+//先生成配置面板 
 // const configBoard = new Configuration();
 // configBoard.show();
 
 //开始构建游戏
 snake.build();
+
+//事件绑定
+var count = 0;
+document.addEventListener('keydown', function (e) {
+  count++;
+  if (e.keyCode === 32) {
+    //开始游戏
+    if (count % 2 === 1) {
+      snake.start();
+    } else {
+      snake.pause();
+    }
+  }
+
+  // if (count > 0 && count % 2 === 1) {
+  //   snake.updateDirection(e.keyCode);    
+  // }
+});
 
 /***/ }),
 /* 3 */
@@ -270,6 +274,7 @@ module.exports = function () {
           length = _configs.length;
 
       var grid = new _grid2.default(size);
+      var snakeSize = size - 2;
       //初始化蛇，并在界面中显示
       for (var i = 0; i < length; i++) {
         var _scope$i = _slicedToArray(this.scope[i], 2),
@@ -277,16 +282,14 @@ module.exports = function () {
             _y = _scope$i[1];
 
         var box = (0, _utils.facotry)('snake');
-        var w = size - 2;
-        _utils.setStyle.call(box, { width: w, height: w, left: _x * size, top: _y * size });
+        this.updateStyle(box, _x, _y);
         this.snake.push(box);
       }
       //初始化食物
-
       var food = (0, _utils.facotry)('snake food');
       //随机生产坐标
 
-      var _getMaxXYNumber = (0, _utils.getMaxXYNumber)(this.configs.size),
+      var _getMaxXYNumber = (0, _utils.getMaxXYNumber)(size),
           x = _getMaxXYNumber.x,
           y = _getMaxXYNumber.y;
 
@@ -294,10 +297,18 @@ module.exports = function () {
           fx = _randomPosition.fx,
           fy = _randomPosition.fy;
 
-      _utils.setStyle.call(food, { left: fx * size, top: fy * size, width: size - 2, height: size - 2 });
+      this.updateStyle(food, fx, fy);
 
       grid.generator(this.snake, food);
       grid.build(this.panel);
+    }
+  }, {
+    key: 'updateStyle',
+    value: function updateStyle(source, left, top) {
+      var size = this.configs.size;
+
+      var s = size - 2;
+      _utils.setStyle.call(source, { left: left * size, top: top * size, width: s, height: s });
     }
   }, {
     key: 'randomPosition',
@@ -322,8 +333,96 @@ module.exports = function () {
       } else {
         return { fx: fx, fy: fy };
       }
-
+      //尾递归，减少调用栈，提高程序性能
       return this.randomPosition(x, y);
+    }
+  }, {
+    key: 'start',
+    value: function start() {
+      var _this = this;
+
+      //TODO 启动定时器，设置默认方向。
+      this.direction = constants.D_RIGHT;
+      this.bindKeyEvent();
+      this.timer = setInterval(function () {
+        _this.updateSnake();
+      }, this.configs.speed);
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      clearInterval(this.timer);
+    }
+  }, {
+    key: 'bindKeyEvent',
+    value: function bindKeyEvent() {
+      var _this2 = this;
+
+      document.addEventListener('keydown', function (e) {
+        _this2.updateDirection(e.keyCode);
+      });
+    }
+
+    //更新方向
+
+  }, {
+    key: 'updateDirection',
+    value: function updateDirection(code) {
+      var D_LEFT = constants.D_LEFT,
+          D_RIGHT = constants.D_RIGHT,
+          D_UP = constants.D_UP,
+          D_DOWN = constants.D_DOWN;
+
+      if (code === 37 && this.direction !== D_RIGHT) {
+        this.direction = D_LEFT;
+      } else if (code === 38 && this.direction !== D_DOWN) {
+        this.direction = D_UP;
+      } else if (code === 39 && this.direction !== D_LEFT) {
+        this.direction = D_RIGHT;
+      } else if (code === 40 && this.direction !== D_UP) {
+        this.direction = D_DOWN;
+      }
+    }
+    /**
+     * 通过方向，找到下一个坐标点，依次更新当前坐标
+     */
+
+  }, {
+    key: 'updateSnake',
+    value: function updateSnake() {
+      var D_LEFT = constants.D_LEFT,
+          D_RIGHT = constants.D_RIGHT,
+          D_UP = constants.D_UP,
+          D_DOWN = constants.D_DOWN;
+      var _configs2 = this.configs,
+          length = _configs2.length,
+          size = _configs2.size;
+
+      var turnedPoint = this.scope[length - 1];
+      var nextPoint = void 0;
+      for (var i = 0; i < length; i++) {
+        var snake = this.snake[i];
+        switch (this.direction) {
+          case D_RIGHT:
+            nextPoint = [turnedPoint[0] + 1, turnedPoint[1]];
+            break;
+          case D_DOWN:
+            nextPoint = [turnedPoint[0], turnedPoint[1] + 1];
+            break;
+          case D_LEFT:
+            nextPoint = [turnedPoint[0] - 1, turnedPoint[1]];
+            break;
+          case D_UP:
+            nextPoint = [turnedPoint[0], turnedPoint[1] - 1];
+            break;
+        }
+
+        if (this.scope[i + 1]) {
+          this.scope[i] = this.scope[i + 1];
+          this.scope[i + 1] = nextPoint;
+        }
+        this.updateStyle(snake, this.scope[i][0], this.scope[i][1]);
+      }
     }
   }]);
 
