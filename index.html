@@ -8,10 +8,51 @@
   <link rel="stylesheet" href="./less/main.css">
 </head>
 <body>
-  <div class="game_config hide">
+  <div class="game_config">
     <div class="c_mask"></div>
     <div class="c_board">
-      
+      <h3>游戏说明</h3>
+      <p>⬆️ ➡️ ⬇️ ⬅️ 控制蛇的方向，回车键启动游戏，空格键暂停游戏</p>
+      <div class="c_cinfigs">
+        <div class="row">
+          <span>蛇的大小</span>
+          <input class="snake_size" type="number" />
+        </div>
+        <div class="row">
+          <span>难度:</span>
+          <form>
+            <div class="label">
+              <input name="degree" type="radio" />
+              <span>简单</span>              
+            </div>
+            <div class="label">
+              <input name="degree" type="radio" />
+              <span>中等</span>              
+            </div>
+            <div class="label">
+              <input name="degree" type="radio" />
+              <span>困难</span>              
+            </div>
+            <div class="label">
+              <input name="degree" type="radio" />
+              <span>非常困难</span>              
+            </div>
+          </form>
+        </div>
+      </div>
+      <button class="start">开始游戏</button>
+    </div>
+  </div>
+  <!-- game over -->
+  <div class="game_over hide">
+    <p>game over</p>
+    <div>
+      <span>您的得分是：</span>
+      <strong class="score">0</strong>
+    </div>
+    <div class="btns">
+      <button class="rebuild">重新开始</button>
+      <button class="new_game">新游戏</button>
     </div>
   </div>
   <!-- 游戏主界面 -->

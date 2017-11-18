@@ -56,6 +56,26 @@ const checkSize = (max, win, size) => {
   return max;
 }
 
+const addClass = (target, className) => {
+  if (className.indexOf(' ') > -1) {
+    className.split(' ').map(cls => target.classList.add(cls));
+  } else {
+    target.classList.add(className);
+  }
+
+  return target;
+}
+
+const removeClass = (target, className) => {
+  if (className.indexOf(' ') > -1) {
+    className.split(' ').map(cls => target.classList.remove(cls));
+  } else {
+    target.classList.remove(className);
+  }
+
+  return target;
+}
+
 const makeScope = (v) => {
   const scope = [];
   for (let i = 0; i < v; i++) {
@@ -72,4 +92,6 @@ module.exports = {
   checkSize,
   makeScope,
   getMaxXYNumber,
+  addClass,
+  removeClass,
 }

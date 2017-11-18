@@ -12,9 +12,13 @@ module.exports = class Grid {
     const { width, height } = getPanelMaxSize(this._size);
     const size = width > height ? height : width;
     setStyle.call(this._grid, { width: size, height: size });
-    snake.map(box => this._grid.appendChild(box));
     this._grid.appendChild(food);
+    snake.map(box => this._grid.appendChild(box));
     return this._grid;
+  }
+
+  addEle(snake) {
+    this._grid.appendChild(snake);
   }
 
   //导出游戏界面

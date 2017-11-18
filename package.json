@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp && gulp watch",
+    "build": "gulp && gulp watch",
+    "start": "python -m SimpleHTTPServer",    
     "dev": "webpack --progress --color"
   },
   "repository": {
