@@ -5,7 +5,7 @@
   git clone https://github.com/huachaoliu/snake.git
 ```
 
-## instal
+## install
 ```bash 
   npm install
 ```
