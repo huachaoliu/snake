@@ -78,7 +78,7 @@ module.exports = class Snake {
       this.position = { fx, fy };
       return { fx ,fy };
     }
-    //尾递归，减少调用栈，提高程序性能
+    //如果新的坐标在蛇的身体中，就重新获取
     return this.randomPosition(x, y);
   }
 
@@ -184,6 +184,7 @@ module.exports = class Snake {
     for (let i = 0; i < len; i++) {
       if (point[0] === scope[i][0] && point[1] === scope[i][1]) {
         checked = true;
+        break;
       }
     }
     //碰撞边境
@@ -197,7 +198,7 @@ module.exports = class Snake {
     this.died = true;
     clearInterval(this.timer);
     this.configs.configuration.gameOver(this.score);
-    console.log('您已经死亡，游戏结束', this.score);
+    // console.log('您已经死亡，游戏结束', this.score);
   }
 
   rebuild(type) {

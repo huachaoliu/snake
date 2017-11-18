@@ -17,10 +17,11 @@ module.exports = class Configuration {
         }
       }
     }
+    this.radios = degres;
   }
 
   start() {
-    const size = this.size > 50 ? 50 : this.size < 10 ? 10 : this.size;
+    const size = this.size > 50 ? 50 : this.size < 15 ? 15 : this.size;
     const speed = 200 - this.degres * 50; 
     addClass(this._wrapper, 'hide');
     this.snake = new Snake(document.querySelector('.container'), {
@@ -29,6 +30,10 @@ module.exports = class Configuration {
       speed: speed || 200,
       length: 5,
     });
+    this.degres = 0;
+    for (let i = 0; i < this.radios.length; i++) {
+      this.radios[i].checked = false;
+    }
     this.snake.build();    
     //事件绑定
     document.addEventListener('keydown', (e) => {

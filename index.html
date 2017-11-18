@@ -16,27 +16,28 @@
       <div class="c_cinfigs">
         <div class="row">
           <span>蛇的大小</span>
-          <input class="snake_size" type="number" />
+          <input class="snake_size" max="50" min="15" type="number" />
+          <p class="size_tip">(在15到50之间最佳)</p>
         </div>
         <div class="row">
           <span>难度:</span>
           <form>
-            <div class="label">
+            <label class="label">
               <input name="degree" type="radio" />
               <span>简单</span>              
-            </div>
-            <div class="label">
+            </label>
+            <label class="label">
               <input name="degree" type="radio" />
               <span>中等</span>              
-            </div>
-            <div class="label">
+            </label>
+            <label class="label">
               <input name="degree" type="radio" />
               <span>困难</span>              
-            </div>
-            <div class="label">
+            </label>
+            <label class="label">
               <input name="degree" type="radio" />
               <span>非常困难</span>              
-            </div>
+            </label>
           </form>
         </div>
       </div>
