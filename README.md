@@ -1,6 +1,6 @@
 # snake
 
-## demo
+## start
 ```bash
   git clone https://github.com/huachaoliu/snake.git
 ```
@@ -15,7 +15,7 @@
   npm run build
 ```
 
-## start
+## run
 ```bash 
   npm start
 ```
